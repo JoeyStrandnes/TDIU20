@@ -3,10 +3,21 @@
 #ifndef TIME_H
 #define TIME_H
 
+#include <string>
+#include <exception>
+#include <iostream>
+#include <sstream>
+
 class Time {
 
 public:
-  Time(int Hour, int Minute, int Second);
+
+  Time(int HH, int MM, int SS);
+  Time(std::string TS);
+  Time();
+  int hour();
+  int minute();
+  int second();
 
 
 private:
@@ -14,8 +25,8 @@ private:
   int Hour;
   int Minute;
   int Second;
+  std::string timeString;
 
-
-}
+};
 
 #endif

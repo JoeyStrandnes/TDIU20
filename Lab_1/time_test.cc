@@ -7,8 +7,8 @@
 
 using namespace std;
 
-// här lägger ni era testfall. 
-// Jobba enligt TDD; 
+// här lägger ni era testfall.
+// Jobba enligt TDD;
 //  1. Lägg till testfall
 //  2. Testa
 //  3. Lägg till (minsta möjliga) implementation
@@ -27,7 +27,7 @@ TEST_CASE ("Default constructor")
 // the following line will halt the compilation process. Move it
 // one test case at the time and then start creating your own test
 // cases
-#if 0
+
 TEST_CASE ( "Constructor with numeric arguments" )
 {
     Time t{12,13,14};
@@ -55,7 +55,7 @@ TEST_CASE ("String constructor")
         CHECK_THROWS( Time{"02:11:74"} );
     }
 }
-
+#if 0
 TEST_CASE ("am or pm")
 {
     Time t{12,12,31};
@@ -97,4 +97,3 @@ TEST_CASE ("Output operator" )
     }
 }
 #endif
-
