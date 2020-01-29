@@ -7,6 +7,8 @@
 #include <exception>
 #include <iostream>
 #include <sstream>
+#include <ostream>
+#include <iomanip>
 
 class Time {
 
@@ -14,6 +16,8 @@ public:
 
   Time(int HH, int MM, int SS);
   Time(std::string TS);
+  bool is_am();
+  std::string to_string(bool AM_PM=false) const;
   Time();
   int hour();
   int minute();
@@ -25,8 +29,10 @@ private:
   int Hour;
   int Minute;
   int Second;
-  std::string timeString;
+
 
 };
+
+std::ostream& operator<<(std::ostream & lhs, Time const& rhs);
 
 #endif
