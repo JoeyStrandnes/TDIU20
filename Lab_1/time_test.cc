@@ -103,5 +103,24 @@ TEST_CASE ("Output operator" )
     }
 
 }
+
+TEST_CASE ("Custom TEST")
+{
+
+  Time Ti {0, 0, 0};
+  Ti = Ti+5;
+/*
+  CHECK( Ti.hour() == 0);
+  CHECK( Ti.minute() == 5);
+  CHECK( Ti.second() == 7);
+*/
+  Ti = Ti-10;
+
+  CHECK( Ti.hour() == 24);
+  CHECK( Ti.minute() == 11);
+  CHECK( Ti.second() == 55);
+
+}
+
 #if 0
 #endif
