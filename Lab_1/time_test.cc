@@ -106,19 +106,69 @@ TEST_CASE ("Output operator" )
 
 TEST_CASE ("Custom TEST")
 {
-
-  Time Ti {0, 0, 0};
-  Ti = Ti+5;
+//TEST FOR + OPERATOR
+  Time Ti {12, 0, 0};
+  Ti = Ti+3600*24+30;
 /*
-  CHECK( Ti.hour() == 0);
-  CHECK( Ti.minute() == 5);
-  CHECK( Ti.second() == 7);
-*/
-  Ti = Ti-10;
+  CHECK( Ti.hour() == 12);
+  CHECK( Ti.minute() == 0);
+  CHECK( Ti.second() == 30);
 
-  CHECK( Ti.hour() == 24);
-  CHECK( Ti.minute() == 11);
+//TEST FOR - OPERATOR
+
+  Ti = {23, 55, 0};
+  Ti = Ti - 125;
+
+  CHECK( Ti.hour() == 23);
+  CHECK( Ti.minute() == 52);
   CHECK( Ti.second() == 55);
+
+
+  Ti = {23, 59, 59};
+  ++Ti;
+
+  CHECK( Ti.hour() == 0);
+  CHECK( Ti.minute() == 0);
+  CHECK( Ti.second() == 0);
+
+  Ti = {00, 00, 00};
+  --Ti;
+
+  CHECK( Ti.hour() == 23);
+  CHECK( Ti.minute() == 59);
+  CHECK( Ti.second() == 59);
+
+  Time T2{0,0,0};
+  Ti = {24, 59, 59};
+  T2 =Ti++;
+
+  CHECK( T2.hour() == 24);
+  CHECK( T2.minute() == 59);
+  CHECK( T2.second() == 59);
+
+  CHECK( Ti.hour() == 0);
+  CHECK( Ti.minute() == 0);
+  CHECK( Ti.second() == 1);
+
+
+
+  Ti = {0, 0, 0};
+  T2=Ti--;
+
+  CHECK( T2.hour() == 0);
+  CHECK( T2.minute() == 0);
+  CHECK( T2.second() == 0);
+
+  CHECK( Ti.hour() == 23);
+  CHECK( Ti.minute() == 59);
+  CHECK( Ti.second() == 59);
+
+  */
+
+  Ti = {0, 0, 0};
+  Time Tii{0, 0, 0};
+
+  CHECK((Ti == Tii)==true);
 
 }
 

@@ -21,6 +21,15 @@ public:
   std::string to_string(bool AM_PM=false) const;
   Time operator+ (int const n);
   Time operator- (int const n);
+
+  Time& operator++();
+  Time& operator--();
+
+  Time operator++(int);
+  Time operator--(int);
+
+  bool operator==(Time const& rhs);
+
   Time();
   int hour();
   int minute();

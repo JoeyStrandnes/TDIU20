@@ -132,24 +132,69 @@ Time Time::operator+ (int const n){
 
 Time Time::operator- (int const n){
 
-  int K =  n % 24;
+  int K = n;
+  if (K>(3600*24)) {
+    K =  n % 24;
+  }
   Time TMP_TIME{*this};
   int TMP;
 
-  TMP = (Hour*3600)+(Minute*60)+(Second)-K);
+  TMP = ((Hour*3600)+(Minute*60)+(Second));
+
+  for (int i = 0; i < n; i++){
+    TMP = TMP-1;
+  }
+  if (TMP < 0) {
+    TMP = (3600*24)+TMP;
+  }
+
 
   TMP_TIME.Hour = TMP/3600;
-  if(TMP_TIME.Hour < 0){TMP_TIME.Hour -= 24;};
-
-
   TMP_TIME.Minute = (TMP%3600) / 60;
-//  if(TMP_TIME.Hour < 0){TMP_TIME.Hour -= 24;};
-
-  TMP_TIME.Second = (TMP % 3600)%60 ;
-
-  //std::cout << TMP_TIME.Hour << '\n' << TMP_TIME.Minute << '\n' << TMP_TIME.Second << '\n';
-
+  TMP_TIME.Second = (TMP % 3600)%60;
 
   return TMP_TIME;
 
+}
+
+Time& Time::operator++(){
+
+  (*this) = (*this) + 1;
+
+  return *this;
+
+}
+
+Time& Time::operator--(){
+
+  (*this) = (*this) - 1;
+
+  return *this;
+
+}
+
+Time Time::operator++(int){
+
+  Time tmp{*this};
+  (*this) = (*this) + 1;
+
+  return tmp;
+
+}
+
+Time Time::operator--(int){
+
+  Time tmp{*this};
+  (*this) = (*this) - 1;
+
+  return tmp;
+
+}
+
+bool Time::operator==(Time const& rhs){
+
+  if (Hour==rhs.Hour && Minute==rhs.Minute && Second==rhs.Second){
+    return true;
+  }
+  return false;
 }
