@@ -9,7 +9,6 @@
 #include <sstream>
 #include <ostream>
 #include <iomanip>
-#include <cmath>
 
 class Time {
 
@@ -19,21 +18,28 @@ public:
   Time(std::string TS);
   bool is_am();
   std::string to_string(bool AM_PM=false) const;
+
+  //OPERATORER
   Time operator+ (int const n);
   Time operator- (int const n);
-
   Time& operator++();
   Time& operator--();
-
   Time operator++(int);
   Time operator--(int);
-
   bool operator==(Time const& rhs);
+  bool operator<(Time const& rhs);
+  bool operator>(Time const& rhs);
+  bool operator!=(Time const& rhs);
+  bool operator<=(Time const& rhs);
+  bool operator>=(Time const& rhs);
 
   Time();
   int hour();
   int minute();
   int second();
+
+  friend std::ostream& operator<<(std::ostream & lhs, Time const& rhs);
+  friend std::istream& operator>>(std::istream & lhs, Time & rhs);
 
 private:
   int Hour;
@@ -43,6 +49,6 @@ private:
 
 };
 
-std::ostream& operator<<(std::ostream & lhs, Time const& rhs);
+
 
 #endif

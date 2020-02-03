@@ -163,12 +163,46 @@ TEST_CASE ("Custom TEST")
   CHECK( Ti.minute() == 59);
   CHECK( Ti.second() == 59);
 
-  */
+
 
   Ti = {0, 0, 0};
   Time Tii{0, 0, 0};
 
   CHECK((Ti == Tii)==true);
+
+  Ti = {12, 30, 10};
+  Time Tii{11, 23, 57};
+
+  CHECK((Tii < Ti)==true);
+  CHECK((Tii > Ti)!=true);
+
+  Ti = {12, 30, 10};
+  Time Tii{11, 23, 57};
+
+  CHECK((Tii != Ti)==true);
+
+  Ti = {12, 30, 10};
+  Time Tii{11, 23, 57};
+
+  CHECK((Tii <= Ti)==true);
+  CHECK((Tii >= Ti)==!true);
+
+
+  */
+
+  Ti = {12, 30, 10};
+  stringstream test;
+
+  test << "23:10:10";
+  test >> Ti;
+  CHECK(Ti.to_string() == "23:10:10");
+  CHECK(test.fail() == false);
+
+  test << "60:32:10";
+  test >> Ti;
+  CHECK(test.fail() == true);
+  CHECK(Ti.to_string() == "23:10:10");
+
 
 }
 

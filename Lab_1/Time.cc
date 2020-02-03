@@ -8,7 +8,7 @@ using namespace std;
 Time::Time(int HH, int MM, int SS): Hour{HH}, Minute{MM}, Second{SS}
 {
   try{
-    if(HH > 24 || MM > 60 || SS > 60){
+    if(HH >= 24 || MM >= 60 || SS >= 60){
       throw 1;
     }
   }
@@ -44,7 +44,7 @@ Time::Time(string TS): Hour{}, Minute{}, Second{}
 
 
     try{
-      if(HH > 24 || MM > 60 || SS > 60){
+      if(HH >= 24 || MM >= 60 || SS >= 60){
         throw 1;
       }
     }
@@ -197,4 +197,80 @@ bool Time::operator==(Time const& rhs){
     return true;
   }
   return false;
+}
+
+bool Time::operator<(Time const& rhs){
+
+  if (Hour<=rhs.Hour){
+    return true;
+  }
+
+  if(Hour<=rhs.Hour && Minute<=rhs.Minute){
+    return true;
+  }
+
+  if(Hour<=rhs.Hour && Minute<=rhs.Minute && Second<rhs.Second){
+    return true;
+  }
+
+  return false;
+}
+
+bool Time::operator>(Time const& rhs){
+
+  if ((*this)<(rhs)){
+  return false;
+  }
+  return true;
+}
+
+bool Time::operator!=(Time const& rhs){
+
+  if ((*this)==(rhs)){
+  return false;
+  }
+  return true;
+
+}
+
+bool Time::operator>=(Time const& rhs){
+
+  if ((*this)>(rhs) || (*this)==(rhs)){
+  return true;
+  }
+  return false;
+
+}
+
+bool Time::operator<=(Time const& rhs){
+
+  if ((*this)<(rhs) || (*this)==(rhs)){
+  return true;
+  }
+  return false;
+
+}
+
+std::istream& operator>>(std::istream & lhs, Time & rhs){
+
+  int HH{rhs.Hour};
+  int MM{rhs.Minute};
+  int SS{rhs.Second};
+  char TMP{};
+
+
+  lhs >> HH >> TMP >> MM >> TMP >> SS;
+
+
+
+  if(HH >= 24 || MM >= 60 || SS >= 60){
+    lhs.setstate(std::ios_base::failbit);
+  }
+  else{
+    rhs.Hour = HH;
+    rhs.Minute = MM;
+    rhs.Second = SS;
+  }
+  return lhs;
+
 }
