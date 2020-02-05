@@ -32,6 +32,7 @@ public:
   bool operator!=(Time const& rhs);
   bool operator<=(Time const& rhs);
   bool operator>=(Time const& rhs);
+  operator std::string() const;
 
   Time();
   int hour();

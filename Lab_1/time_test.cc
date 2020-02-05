@@ -72,11 +72,12 @@ TEST_CASE ("Convert to string" )
     CHECK( Time{12, 1, 2}.to_string()     ==    "12:01:02" );
     CHECK( Time{14,33,12}.to_string(true) == "02:33:12 pm" );
 }
-/*
+
 TEST_CASE ("Conversion to string" )
 {
     CHECK( string(Time{2,4,1}) == "02:04:01" );
-}*/
+}
+
 
 
 TEST_CASE ("Output operator" )
@@ -107,30 +108,44 @@ TEST_CASE ("Output operator" )
 TEST_CASE ("Custom TEST")
 {
 //TEST FOR + OPERATOR
+  Time T2{0,0,0};
   Time Ti {12, 0, 0};
-  Ti = Ti+3600*24+30;
 /*
-  CHECK( Ti.hour() == 12);
-  CHECK( Ti.minute() == 0);
-  CHECK( Ti.second() == 30);
+SECTION("TEST"){
+  REQUIRE((T2+90).second() == 30);
+}
+*/
+
+SECTION("+ OPERATOR"){
+    Ti = (Ti+3600*24)+30;
+
+    CHECK( Ti.hour() == 12);
+    CHECK( Ti.minute() == 0);
+    CHECK( Ti.second() == 30);
+
+}
 
 //TEST FOR - OPERATOR
-
+SECTION("- OPERATOR"){
   Ti = {23, 55, 0};
   Ti = Ti - 125;
 
   CHECK( Ti.hour() == 23);
   CHECK( Ti.minute() == 52);
   CHECK( Ti.second() == 55);
+}
 
 
+SECTION("++ pre OPERATOR"){
   Ti = {23, 59, 59};
   ++Ti;
 
   CHECK( Ti.hour() == 0);
   CHECK( Ti.minute() == 0);
   CHECK( Ti.second() == 0);
+}
 
+SECTION("-- pre OPERATOR"){
   Ti = {00, 00, 00};
   --Ti;
 
@@ -138,20 +153,25 @@ TEST_CASE ("Custom TEST")
   CHECK( Ti.minute() == 59);
   CHECK( Ti.second() == 59);
 
-  Time T2{0,0,0};
-  Ti = {24, 59, 59};
-  T2 =Ti++;
+}
 
-  CHECK( T2.hour() == 24);
-  CHECK( T2.minute() == 59);
-  CHECK( T2.second() == 59);
+SECTION("++ post OPERATOR"){
 
-  CHECK( Ti.hour() == 0);
-  CHECK( Ti.minute() == 0);
-  CHECK( Ti.second() == 1);
+    Ti = {23, 59, 59};
+    T2 = Ti++;
+
+    CHECK( T2.hour() == 23);
+    CHECK( T2.minute() == 59);
+    CHECK( T2.second() == 59);
+
+    CHECK( Ti.hour() == 0);
+    CHECK( Ti.minute() == 0);
+    CHECK( Ti.second() == 0);
+
+}
 
 
-
+SECTION("-- post OPERATOR"){
   Ti = {0, 0, 0};
   T2=Ti--;
 
@@ -163,45 +183,59 @@ TEST_CASE ("Custom TEST")
   CHECK( Ti.minute() == 59);
   CHECK( Ti.second() == 59);
 
-
-
+}
+SECTION("== OPERATOR"){
   Ti = {0, 0, 0};
   Time Tii{0, 0, 0};
+  Time wrong{1,1,1};
 
-  CHECK((Ti == Tii)==true);
+  CHECK((Ti == Tii));
+  CHECK((Ti == wrong)==false);
+}
 
+SECTION("< > OPERATOR"){
   Ti = {12, 30, 10};
   Time Tii{11, 23, 57};
 
   CHECK((Tii < Ti)==true);
   CHECK((Tii > Ti)!=true);
 
+}
+
+SECTION("!= OPERATOR"){
   Ti = {12, 30, 10};
   Time Tii{11, 23, 57};
 
   CHECK((Tii != Ti)==true);
 
+}
+
+SECTION("<= >= OPERATOR"){
   Ti = {12, 30, 10};
   Time Tii{11, 23, 57};
 
   CHECK((Tii <= Ti)==true);
   CHECK((Tii >= Ti)==!true);
 
+}
 
-  */
 
-  Ti = {12, 30, 10};
-  stringstream test;
+SECTION("Inmatning"){
 
-  test << "23:10:10";
-  test >> Ti;
-  CHECK(Ti.to_string() == "23:10:10");
-  CHECK(test.fail() == false);
+    Ti = {12, 30, 10};
+    stringstream test;
 
-  test << "60:32:10";
-  test >> Ti;
-  CHECK(test.fail() == true);
-  CHECK(Ti.to_string() == "23:10:10");
+    test << "23:10:10";
+    test >> Ti;
+    CHECK(Ti.to_string() == "23:10:10");
+    CHECK(test.fail() == false);
+
+    test << "60:32:10";
+    test >> Ti;
+    CHECK(test.fail() == true);
+    CHECK(Ti.to_string() == "23:10:10");
+
+}
 
 
 }

@@ -103,6 +103,12 @@ string Time::to_string(bool AM_PM) const{
 
 }
 
+Time::operator string() const {
+  return to_string();
+
+}
+
+
 ostream& operator<<(ostream & lhs, Time const& rhs) {
   lhs << rhs.to_string();
   return lhs;
@@ -110,21 +116,17 @@ ostream& operator<<(ostream & lhs, Time const& rhs) {
 
 Time Time::operator+ (int const n){
 
-  int K = n % 24;
+  //int K = n % 24;
   Time TMP_TIME{*this};
   int TMP;
 
-  TMP = ((Hour*3600)+(Minute*60)+(Second)+K);
+  TMP = (((Hour*3600)+(Minute*60)+(Second)+n)%(24*3600));
 
   TMP_TIME.Hour = TMP/3600;
   if(TMP_TIME.Hour == 24){TMP_TIME.Hour = 0;};
 
   TMP_TIME.Minute = (TMP%3600) / 60;
-
-  TMP_TIME.Second = (TMP % 3600)%60 ;
-
-  //std::cout << TMP_TIME.Hour << '\n' << TMP_TIME.Minute << '\n' << TMP_TIME.Second << '\n';
-
+  TMP_TIME.Second = (TMP % 3600)%60;
 
   return TMP_TIME;
 
@@ -148,13 +150,11 @@ Time Time::operator- (int const n){
     TMP = (3600*24)+TMP;
   }
 
-
   TMP_TIME.Hour = TMP/3600;
   TMP_TIME.Minute = (TMP%3600) / 60;
   TMP_TIME.Second = (TMP % 3600)%60;
 
   return TMP_TIME;
-
 }
 
 Time& Time::operator++(){
