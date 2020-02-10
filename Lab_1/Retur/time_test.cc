@@ -7,14 +7,6 @@
 
 using namespace std;
 
-// här lägger ni era testfall.
-// Jobba enligt TDD;
-//  1. Lägg till testfall
-//  2. Testa
-//  3. Lägg till (minsta möjliga) implementation
-//  4. Testa alla testfall
-//  5. Refaktorera (skriv om) så att allt ser bra ut
-
 TEST_CASE ("Default constructor")
 {
     Time t;
@@ -24,9 +16,6 @@ TEST_CASE ("Default constructor")
     CHECK(t.second() == 0);
 }
 
-// the following line will halt the compilation process. Move it
-// one test case at the time and then start creating your own test
-// cases
 
 TEST_CASE ( "Constructor with numeric arguments" )
 {
@@ -105,18 +94,14 @@ TEST_CASE ("Output operator" )
 
 }
 
-//TODO: Ta bort utkommenterad kod.
+//TODO: Ta bort utkommenterad kod. *
 
 TEST_CASE ("Custom TEST")
 {
 //TEST FOR + OPERATOR
   Time T2{0,0,0};
   Time Ti {12, 0, 0};
-/*
-SECTION("TEST"){
-  REQUIRE((T2+90).second() == 30);
-}
-*/
+
 
 SECTION("+ OPERATOR"){
     Ti = (Ti+3600*24)+30;
@@ -126,7 +111,7 @@ SECTION("+ OPERATOR"){
 
 }
 
-//TODO: Ni testar inte fallet då hela tiden ska gå över från t.ex. 00:00:00 till 23:59:59
+//TODO: Ni testar inte fallet då hela tiden ska gå över från t.ex. 00:00:00 till 23:59:59*
 
 //TEST FOR - OPERATOR
 SECTION("- OPERATOR"){
@@ -139,12 +124,33 @@ SECTION("- OPERATOR"){
 
 }
 
-//TODO: Ni testar inte att funkionaliteten stämmer för prefix för både ++ och --.
+SECTION("- OPERATOR LARGE"){
+  Ti = {23, 55, 0};
+  Ti = Ti - 86400*10;
+
+  CHECK( Ti.hour() == 23);
+  CHECK( Ti.minute() == 55);
+  CHECK( Ti.second() == 0);
+
+}
+
+SECTION("- OPERATOR CROSSOVER"){
+  Ti = {0, 0, 0};
+  Ti = Ti - 1;
+
+  CHECK( Ti.hour() == 23);
+  CHECK( Ti.minute() == 59);
+  CHECK( Ti.second() == 59);
+
+}
+
+//TODO: Ni testar inte att funkionaliteten stämmer för prefix för både ++ och --. *
 //Hint: testa t.ex. (++t).to_string() etc..
- 
+
 SECTION("++ pre OPERATOR"){
   Ti = {23, 59, 59};
-  ++Ti;
+
+  CHECK((++Ti).to_string() == "00:00:00");
 
   CHECK( Ti.hour() == 0);
   CHECK( Ti.minute() == 0);
@@ -192,18 +198,18 @@ SECTION("-- post OPERATOR"){
 }
 
 //TODO: Alla operatorer ska testas i fallet då de returnerar true samt false
-//för att se så att de faktiskt kan göra det.
+//för att se så att de faktiskt kan göra det. *
 
 //Kommentar: Eftersom operatorerna returnerar en bool behöver ni inte jämföra med
 //true eller false. Detta komemer evalueras till till exempel true == true osv..
-//Använd CHECK_FALSE för att kolla motsatsen.
+//Använd CHECK_FALSE för att kolla motsatsen. *
 SECTION("== OPERATOR"){
   Ti = {0, 0, 0};
   Time Tii{0, 0, 0};
   Time wrong{1,1,1};
 
-  CHECK((Ti == Tii));
-  CHECK((Ti == wrong)==false);
+  CHECK(Ti == Tii);
+  CHECK_FALSE(Ti == wrong);
 }
 
 SECTION("< > OPERATOR"){
@@ -211,15 +217,17 @@ SECTION("< > OPERATOR"){
   Time Tii{11, 23, 57};
 
   CHECK((Tii < Ti)==true);
-  CHECK((Tii > Ti)!=true);
+  CHECK_FALSE(Tii > Ti);
 
 }
 
 SECTION("!= OPERATOR"){
   Ti = {12, 30, 10};
   Time Tii{11, 23, 57};
+  Time wrong{11,23,57};
 
-  CHECK((Tii != Ti)==true);
+  CHECK(Tii != Ti);
+  CHECK_FALSE(Tii != wrong);
 
 }
 
@@ -227,30 +235,43 @@ SECTION("<= >= OPERATOR"){
   Ti = {12, 30, 10};
   Time Tii{11, 23, 57};
 
-  CHECK((Tii <= Ti)==true);
-  CHECK((Tii >= Ti)==!true);
+  CHECK(Tii <= Ti);
+  CHECK_FALSE(Tii >= Ti);
 
 }
 
-//TODO: Chained input ska även testas.
+//TODO: Chained input ska även testas.*
 
 SECTION("Inmatning"){
 
-    Ti = {12, 30, 10};
     stringstream test;
 
-    test << "23:10:10";
-    test >> Ti;
-    CHECK(Ti.to_string() == "23:10:10");
-    CHECK(test.fail() == false);
+    test << "23:10:05" <<" "<< "23:10:10";
+    test >> Ti >> T2;
 
-    test << "60:32:10";
-    test >> Ti;
-    CHECK(test.fail() == true);
-    CHECK(Ti.to_string() == "23:10:10");
+    CHECK(Ti.to_string() == "23:10:05");
+    CHECK_FALSE(test.fail());
+
+    CHECK(T2.to_string() == "23:10:10");
+    CHECK_FALSE(test.fail());
 
 }
 
+SECTION("Inmatning with fail"){
+
+    Time T2{12,13,5};
+    Time Ti {13, 4, 2};
+
+    stringstream test;
+
+    test << "23:10:05" <<" "<< "60:10:10";
+    test >> Ti >> T2;
+    CHECK(test.fail());
+
+    CHECK(Ti.to_string() == "23:10:05");
+    CHECK(T2.to_string() == "12:13:05");
+
+}
 
 }
 

@@ -143,7 +143,7 @@ Time Time::operator- (int const n){
 
   TMP = ((Hour*3600)+(Minute*60)+(Second));
 
-  for (int i = 0; i < n; i++){
+  for (int i = 0; i < n; i++){ //N SKA VARA K?
     TMP = TMP-1;
   }
   if (TMP < 0) {

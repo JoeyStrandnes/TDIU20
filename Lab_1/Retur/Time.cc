@@ -6,21 +6,24 @@
 using namespace std;
 
 //TODO: Det ni ska kasta vid felaktig tid är ett std::exception.
-//Ni ska inte fånga detta utan det gör CHECK_THROWS i huvudprogrammet.
+//Ni ska inte fånga detta utan det gör CHECK_THROWS i huvudprogrammet.*
 
 //TODO: Ni checkar om tiden är felaktig på flera ställen. Detta är kodupprepning.
-//Gör istället en funktion som löser detta åt er och använd den på dessa ställen i koden.
+//Gör istället en funktion som löser detta åt er och använd den på dessa ställen i koden.*
+
+bool Time::checkTime(int const& HH, int const& MM, int const& SS ) const{
+  if(HH >= 24 || MM >= 60 || SS >= 60){
+    return true;
+  }
+  return false;
+}
 
 Time::Time(int HH, int MM, int SS): Hour{HH}, Minute{MM}, Second{SS}
 {
-  try{
-    if(HH >= 24 || MM >= 60 || SS >= 60){
-      throw 1;
+
+    if(checkTime(HH,MM,SS)){
+      throw invalid_argument{"Invalid Time"};
     }
-  }
-  catch(exception& e){
-    cout << "Incorrect Input" << '\n';
-  }
 
 }
 
@@ -38,32 +41,26 @@ Time::Time(string TS): Hour{}, Minute{}, Second{}
     buffer << TS;
     getline(buffer, TMP, ':');
     HH = stoi(TMP);
-    //buffer.ignore(1);
+
 
     getline(buffer, TMP, ':');
     MM = stoi(TMP);
-    //buffer.ignore(1);
+
 
     getline(buffer, TMP, ':');
     SS = stoi(TMP);
-    //buffer.ignore(1);
 
-
-    try{
-      if(HH >= 24 || MM >= 60 || SS >= 60){
-        throw 1;
-      }
-    }
-    catch(exception& e){
-      cout << "Incorrect Input" << '\n';
+    if(checkTime(HH,MM,SS)){
+      throw invalid_argument{"Invalid Time"};
     }
 
     Hour=HH;
     Minute=MM;
     Second=SS;
+
 }
 
-bool Time::is_am(){
+bool Time::is_am() const{
 
 if (Hour < 12){
   return true;
@@ -115,14 +112,13 @@ Time::operator string() const {
 }
 
 
-ostream& operator<<(ostream & lhs, Time const& rhs) {
+ostream& operator<<(ostream & lhs, Time const& rhs){
   lhs << rhs.to_string();
   return lhs;
 }
 
 Time Time::operator+ (int const n){
 
-  //int K = n % 24;
   Time TMP_TIME{*this};
   int TMP;
 
@@ -139,21 +135,21 @@ Time Time::operator+ (int const n){
 }
 
 //TODO: er - operator ser inte ut att fungera för större tal.
-//Testa t.ex. t-86400*10
+//Testa t.ex. t-86400*10 *
 
-//Kommentar: Använd bättre variabelnamn.
+//Kommentar: Använd bättre variabelnamn. *
 Time Time::operator- (int const n){
 
-  int K = n;
-  if (K>(3600*24)) {
-    K =  n % 24;
+  int TMPSeconds = n;
+  if (TMPSeconds>(3600*24)) {
+    TMPSeconds =  n % 24;
   }
   Time TMP_TIME{*this};
   int TMP;
 
   TMP = ((Hour*3600)+(Minute*60)+(Second));
 
-  for (int i = 0; i < n; i++){
+  for (int i = 0; i < TMPSeconds; i++){
     TMP = TMP-1;
   }
   if (TMP < 0) {
@@ -201,7 +197,7 @@ Time Time::operator--(int){
 
 }
 
-bool Time::operator==(Time const& rhs){
+bool Time::operator==(Time const& rhs) const{
 
   if (Hour==rhs.Hour && Minute==rhs.Minute && Second==rhs.Second){
     return true;
@@ -209,7 +205,7 @@ bool Time::operator==(Time const& rhs){
   return false;
 }
 
-bool Time::operator<(Time const& rhs){
+bool Time::operator<(Time const& rhs)const{
 
   if (Hour<=rhs.Hour){
     return true;
@@ -226,7 +222,7 @@ bool Time::operator<(Time const& rhs){
   return false;
 }
 
-bool Time::operator>(Time const& rhs){
+bool Time::operator>(Time const& rhs)const{
 
   if ((*this)<(rhs)){
   return false;
@@ -234,7 +230,7 @@ bool Time::operator>(Time const& rhs){
   return true;
 }
 
-bool Time::operator!=(Time const& rhs){
+bool Time::operator!=(Time const& rhs)const{
 
   if ((*this)==(rhs)){
   return false;
@@ -243,7 +239,7 @@ bool Time::operator!=(Time const& rhs){
 
 }
 
-bool Time::operator>=(Time const& rhs){
+bool Time::operator>=(Time const& rhs)const{
 
   if ((*this)>(rhs) || (*this)==(rhs)){
   return true;
@@ -252,7 +248,7 @@ bool Time::operator>=(Time const& rhs){
 
 }
 
-bool Time::operator<=(Time const& rhs){
+bool Time::operator<=(Time const& rhs)const{
 
   if ((*this)<(rhs) || (*this)==(rhs)){
   return true;
