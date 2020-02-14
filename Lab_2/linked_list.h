@@ -1,16 +1,21 @@
 #ifndef LINKED_LIST
 #define LINKED_LIST
 
-class LL {
+#include <iostream>
+#include <assert.h>
 
+class LL {
+class Element;
 
 public:
 
+  LL();
   void insert(int const i);
-
+  void removeElement(int const i);
+  int indexCheck(int const i) const;
 
 private:
-
+  Element* indexFind(int const i) const;
 
 class Element{
 
