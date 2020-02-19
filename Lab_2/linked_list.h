@@ -10,9 +10,20 @@ class Element;
 public:
 
   LL();
+  LL(std::initializer_list<int> elements); //GODTYCKLIG
+  LL(LL const& rhs); //COPY
+  LL(LL && rhs); //MOVE?
+
+  LL& operator=(LL const& rhs) = default; //?
+  //LL& operator=(LL && rhs); //MÅSTE SKAPAS
+
+  ~LL(); //DESTRUCT
   void insert(int const i);
   void removeElement(int const i);
   int indexCheck(int const i) const;
+  int sizeOf() const;
+
+  friend std::ostream& operator<<(std::ostream & lhs, LL const& rhs);
 
 private:
   Element* indexFind(int const i) const;
@@ -21,6 +32,7 @@ class Element{
 
 public:
   Element(int value, Element* next_el, Element* prev_el);
+
   int data{};
   Element* next;
   Element* prev;
