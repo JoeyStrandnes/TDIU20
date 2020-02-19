@@ -17,15 +17,15 @@ class Time {
 
 public:
 
-  Time(int HH, int MM, int SS);
-  Time(std::string TS);
+  Time(const int HH, const int MM, const int SS);
+  Time(const std::string TS);
   bool is_am() const;
-  std::string to_string(bool AM_PM=false) const;
+  std::string to_string(bool const AM_PM=false) const;
   bool checkTime(int const& HH, int const& MM, int const& SS) const;
 
   //OPERATORER
-  Time operator+ (int const n);
-  Time operator- (int const n);
+  Time operator+ (int const n) const;
+  Time operator- (int const n) const;
   Time& operator++();
   Time& operator--();
   Time operator++(int);
@@ -39,12 +39,12 @@ public:
   operator std::string() const;
 
   Time();
-  int hour();
-  int minute();
-  int second();
+  int hour() const;
+  int minute() const;
+  int second() const;
 
   friend std::ostream& operator<<(std::ostream & lhs, Time const& rhs);
-  friend std::istream& operator>>(std::istream & lhs, Time & rhs) ;
+  friend std::istream& operator>>(std::istream & lhs, Time & rhs);
 
 private:
   int Hour;
