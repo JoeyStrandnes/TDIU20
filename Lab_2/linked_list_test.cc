@@ -11,37 +11,47 @@ using namespace std;
 TEST_CASE("FIRST TEST"){
 
   LL List;
-
+  stringstream ss;
+SECTION ("INSERT") {
   List.insert(10);
   List.insert(4);
   List.insert(9);
+}
 
-
+SECTION ("INDEX CHECK") {
+  List.insert(10);
+  List.insert(4);
+  List.insert(9);
   CHECK(List.indexCheck(1) == 4);
   CHECK(List.indexCheck(2) == 9);
   CHECK(List.indexCheck(3) == 10);
-
   CHECK_THROWS(List.indexCheck(4));
   CHECK(List.sizeOf()==3);
 
   List.removeElement(2);
   CHECK(List.indexCheck(2) == 10);
   CHECK(List.indexCheck(1) == 4);
-
   CHECK_THROWS(List.indexCheck(3));
   CHECK(List.sizeOf()==2);
+}
 
+SECTION ("INTIALIZER LIST") {
   LL List2{1,7,4,20,10};
   CHECK(List2.indexCheck(1) == 1);
   CHECK(List2.indexCheck(2) == 4);
   CHECK(List2.indexCheck(3) == 7);
   CHECK(List2.indexCheck(4) == 10);
   CHECK(List2.indexCheck(5) == 20);
+}
 
-  stringstream ss;
+SECTION ("TO STREAM") {
+  LL List2{1,7,4,20,10};
   ss << List2;
   CHECK(ss.str() == "1 4 7 10 20");
+}
 
+SECTION ("COPY") {
+  LL List2{1,7,4,20,10};
   LL List3{List2};
   ss.str("");
   ss << List3;
@@ -62,7 +72,10 @@ TEST_CASE("FIRST TEST"){
   ss.str("");
   ss << List4;
   CHECK(ss.str() == "4 7 10 20");
+}
 
+SECTION ("MOVE") {
+  LL List2{1,7,4,20,10};
   LL List5{move(List2)};
   ss.str("");
   ss << List2;
@@ -70,6 +83,7 @@ TEST_CASE("FIRST TEST"){
   ss.str("");
   ss << List5;
   CHECK(ss.str() == "1 4 7 10 20");
+}
 
 }
 
