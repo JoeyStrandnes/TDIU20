@@ -64,7 +64,8 @@ SECTION ("COPY") {
   ss << List3;
   CHECK(ss.str() == "4 7 10 20");
 
-  LL List4 = List2;
+  LL List4;
+  List4 = List2;
   List4.removeElement(1);
   ss.str("");
   ss << List2;
@@ -83,6 +84,16 @@ SECTION ("MOVE") {
   ss.str("");
   ss << List5;
   CHECK(ss.str() == "1 4 7 10 20");
+
+  LL List6{-1,3,5,7,9};
+  LL List7{};
+  List7 = move(List6);
+  ss.str("");
+  ss << List6;
+  CHECK(ss.str() == "");
+  ss.str("");
+  ss << List7;
+  CHECK(ss.str() == "-1 3 5 7 9");
 }
 
 }

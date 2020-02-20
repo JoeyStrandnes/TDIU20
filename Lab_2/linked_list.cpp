@@ -16,15 +16,23 @@ LL::LL(std::initializer_list<int> elements) : first{nullptr}, last{nullptr} {
     insert(*(elements.begin()+i));
   }
 } //GODTYCKLIG
+
 LL::LL(LL const& rhs): first{nullptr}, last{nullptr} {
   first = new Element {-1, nullptr, nullptr};
   last = new Element {-1, nullptr, first};
   first->next = last;
 
-  for (int i=1; i<=rhs.sizeOf(); i++) {
+  for (int i=rhs.sizeOf(); i>0; i--) { //KOLLA NULLPTR
     insert(rhs.indexCheck(i));
   }
 } //COPY
+
+LL& LL::operator=(LL const& rhs) {
+  for (int i=rhs.sizeOf(); i>0; i--) { //KOLLA NULLPTR
+    insert(rhs.indexCheck(i));
+  }
+  return *this;
+} //COPY OPERATOR
 
 LL::LL(LL && rhs): first{rhs.first}, last{rhs.last} {
   rhs.first = new Element {-1, nullptr, nullptr};
@@ -32,7 +40,11 @@ LL::LL(LL && rhs): first{rhs.first}, last{rhs.last} {
   rhs.first->next = rhs.last;
 } //MOVE //ÄR KANSKE RÄTT?
 
-//LL& operator=(LL && rhs) //MÅSTE SKAPAS
+LL& LL::operator=(LL && rhs) {
+  first = std::__exchange(rhs.first, first);
+  last = std::__exchange(rhs.last, last);
+  return *this;
+} //MOVE OPERATOR
 
 LL::~LL() {
   int size = sizeOf();
@@ -86,9 +98,12 @@ void LL::insert(int const i) {
   while (placeHolder->next->data < i && placeHolder->next != last) {
     placeHolder = placeHolder->next;
   }
-  Element* tmp = placeHolder->next;
-  placeHolder->next = new Element {i, tmp, placeHolder};
-  tmp->prev = placeHolder->next;
+  placeHolder = placeHolder->next;
+  placeHolder->prev->next = new Element {i, placeHolder, placeHolder->prev};
+  placeHolder->prev = placeHolder->prev->next;
+  //Element* tmp = placeHolder->next; // SKA BORT
+  //placeHolder->next = new Element {i, tmp, placeHolder};
+  //tmp->prev = placeHolder->next;
 
   //delete tmp;
   //delete placeHolder;
