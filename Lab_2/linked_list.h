@@ -12,11 +12,10 @@ public:
   LL();
   LL(std::initializer_list<int> elements); //GODTYCKLIG
   LL(LL const& rhs); //COPY
-  LL(LL && rhs); //MOVE?
-
-  LL& operator=(LL const& rhs) = default; //?
-  //LL& operator=(LL && rhs); //MÅSTE SKAPAS
-
+  LL(LL && rhs); //MOVE
+  LL& operator=(LL const& rhs); //COPY
+  LL& operator=(LL && rhs); //MOVE
+  bool operator==(LL const& rhs) const;
   ~LL(); //DESTRUCT
   void insert(int const i);
   void removeElement(int const i);
