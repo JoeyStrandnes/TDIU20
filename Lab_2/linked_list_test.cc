@@ -112,8 +112,6 @@ SECTION ("MOVE") {
   ss.str("");
   ss << List7;
   CHECK(ss.str() == "-1 3 5 7 9");
-<<<<<<< HEAD
-=======
 
   LL listOne{1,2,3};
   LL listTwo{4,5,6};
@@ -130,7 +128,6 @@ SECTION ("MOVE") {
   ss.str("");
   ss << listThree;
   CHECK(ss.str() == "4 5 6");
->>>>>>> 1958f2a4b7dabf2c06c49323b15b6d50edccdbc8
 }
 
 }

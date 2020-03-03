@@ -15,10 +15,7 @@ public:
   LL(LL && rhs); //MOVE
   LL& operator=(LL const& rhs); //COPY
   LL& operator=(LL && rhs); //MOVE
-<<<<<<< HEAD
-=======
   bool operator==(LL const& rhs) const;
->>>>>>> 1958f2a4b7dabf2c06c49323b15b6d50edccdbc8
   ~LL(); //DESTRUCT
   void insert(int const i);
   void removeElement(int const i);
