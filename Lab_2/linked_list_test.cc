@@ -18,6 +18,7 @@ SECTION ("INSERT") {
   List.insert(9);
 }
 
+//Kommentar: C++ är 0-indexerat. Ada <3
 SECTION ("INDEX CHECK") {
   List.insert(10);
   List.insert(4);
@@ -50,6 +51,8 @@ SECTION ("TO STREAM") {
   CHECK(ss.str() == "1 4 7 10 20");
 }
 
+//TODO: Ni testar inte fallet då en lista redan har värden och sedan
+//blir tilldelad en annan lista. Se TODO i .cc *
 SECTION ("COPY") {
   LL List2{1,7,4,20,10};
   LL List3{List2};
@@ -73,8 +76,23 @@ SECTION ("COPY") {
   ss.str("");
   ss << List4;
   CHECK(ss.str() == "4 7 10 20");
+
+
+  LL listOne{1,2,3};
+  LL listTwo{4,5,6};
+  LL listThree{4,5,6};
+  listOne = listTwo;
+  ss.str("");
+  ss << listOne;
+  CHECK(ss.str() == "4 5 6");
+  listThree = listThree;
+  ss.str("");
+  ss << listThree;
+  CHECK(ss.str() == "4 5 6");
+
 }
 
+//TODO: Samma som ovan (COPY). *
 SECTION ("MOVE") {
   LL List2{1,7,4,20,10};
   LL List5{move(List2)};
@@ -94,6 +112,25 @@ SECTION ("MOVE") {
   ss.str("");
   ss << List7;
   CHECK(ss.str() == "-1 3 5 7 9");
+<<<<<<< HEAD
+=======
+
+  LL listOne{1,2,3};
+  LL listTwo{4,5,6};
+  LL listThree{4,5,6};
+
+  listOne = move(listTwo);
+  ss.str("");
+  ss << listOne;
+  CHECK(ss.str() == "4 5 6");
+  ss.str("");
+  ss << listTwo;
+  CHECK(ss.str() == "");
+  listThree = listThree;
+  ss.str("");
+  ss << listThree;
+  CHECK(ss.str() == "4 5 6");
+>>>>>>> 1958f2a4b7dabf2c06c49323b15b6d50edccdbc8
 }
 
 }
