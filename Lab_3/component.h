@@ -19,7 +19,7 @@ private:
 class Component{
 public:
   Component(std::string name, Connection &Connection1, Connection &Connection2);
-  virtual ~Component();
+  virtual ~Component() = default;
   virtual void tick(double tickRate) = 0;
   virtual double voltage_diff();
   std::string get_name();

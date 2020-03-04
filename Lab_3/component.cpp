@@ -8,12 +8,6 @@ na{name}, n{Connection1}, p{Connection2} {
 
 }
 
-Component::~Component() {
-  for(Component* e : net ){
-      delete e;
-  }
-}
-
 Battery::Battery(std::string name, double Voltage, Connection &Connection1, Connection &Connection2):
 Component(name, Connection1, Connection2), V{Voltage}{
    //Gör serie-koppling av batterier möjligt
@@ -128,4 +122,8 @@ void simulate(vector<Component*> net, int iterations, int rows, double tickRate)
       cout<<endl;
 
   }
+  for (size_t i=0; i<net.size(); i++) {
+    delete net[i];
+  }
+  cout<<endl;
 }
