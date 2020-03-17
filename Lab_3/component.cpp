@@ -3,39 +3,39 @@
 using namespace std;
 
 
-Component::Component(std::string name, Connection &Connection1, Connection &Connection2):
+Component::Component(std::string const name, Connection &Connection1, Connection &Connection2):
 na{name}, n{Connection1}, p{Connection2} {
 
 }
 
-Battery::Battery(std::string name, double Voltage, Connection &Connection1, Connection &Connection2):
+Battery::Battery(std::string const name, double const Voltage, Connection &Connection1, Connection &Connection2):
 Component(name, Connection1, Connection2), V{Voltage}{
    //Gör serie-koppling av batterier möjligt
 }
 
-Resistor::Resistor(std::string name, double Resistance, Connection &Connection1, Connection &Connection2):
+Resistor::Resistor(std::string const name, double const Resistance, Connection &Connection1, Connection &Connection2):
 Component(name, Connection1, Connection2), R{Resistance}{
 
 }
 
-Capacitor::Capacitor(std::string name, double Capacitance, Connection &Connection1, Connection &Connection2):
+Capacitor::Capacitor(std::string const name, double Capacitance, Connection &Connection1, Connection &Connection2):
 Component(name, Connection1, Connection2), F{Capacitance}, CH{0.0}{
 
 }
 
-double Connection::get_voltage() {
+double Connection::get_voltage() const {
   return Voltage;
 }
 
-void Connection::set_voltage(double const& volts) {
+void Connection::set_voltage(double const volts) {
   Voltage = volts;
 }
 
-string Component::get_name() {
+string Component::get_name() const {
   return na;
 }
 
-double Component::voltage_diff() {
+double Component::voltage_diff() const {
   double volt{};
   if(p.get_voltage() >= n.get_voltage()) {
         volt = p.get_voltage() - n.get_voltage();
@@ -46,21 +46,21 @@ double Component::voltage_diff() {
   return volt;
 }
 
-double Battery::voltage_diff() {
+double Battery::voltage_diff() const{
   return V;
 }
 
-double Battery::get_current() {
+double Battery::get_current() const{
   return 0.0;
 }
 
-double Resistor::get_current() {
+double Resistor::get_current() const{
   double current{};
   current = voltage_diff()/R;
   return current;
 }
 
-double Capacitor::get_current() {
+double Capacitor::get_current() const {
   double current{};
   current = F*(voltage_diff()-CH);
   return current;
@@ -97,7 +97,7 @@ void Capacitor::tick(double tickRate) {
 
 }
 
-void simulate(vector<Component*> net, int iterations, int rows, double tickRate) {
+void simulate(vector<Component*> & net, int iterations, int rows, double tickRate) {
 
   for (size_t k = 0; k < net.size(); k++) {
     cout << setw(14) << net[k]->get_name();
@@ -122,8 +122,10 @@ void simulate(vector<Component*> net, int iterations, int rows, double tickRate)
       cout<<endl;
 
   }
+
   for (size_t i=0; i<net.size(); i++) {
-    delete net[i];
+    delete net.at(i);
   }
+  net.clear();
   cout<<endl;
 }
